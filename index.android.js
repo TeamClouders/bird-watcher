@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { AppRegistry } from 'react-native';
-import { HomeComponent, AboutComponent, TimerComponent, GeoLocationComponent, NotesComponent } from './src/components';
+import { HomeComponent, CameraComponent, TimerComponent, GeoLocationComponent, NotesComponent } from './src/components';
 // React navigation imports
 import { TabNavigator, DrawerNavigator, StackNavigator } from 'react-navigation';
 
@@ -27,7 +27,7 @@ const Screen1Stack = StackNavigator({
         screen: HomeComponent,
       },
       Camera: {
-        screen: AboutComponent,
+        screen: CameraComponent,
       },
       Notes: {
         screen: NotesComponent,
@@ -78,7 +78,7 @@ AppRegistry.registerComponent("birdWatcher", () => DrawerStack);
 //             screen: birdWatcher,
 //           },
 //           Camera: {
-//             screen: AboutComponent,
+//             screen: CameraComponent,
 //           },
 //           Notes: {
 //             screen: NotesComponent,
