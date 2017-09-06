@@ -54,9 +54,11 @@ export class TimerComponent extends Component {
         <TouchableHighlight onPress={this.toggleStopwatch}>
           <Text style={styles.button}>{!this.state.stopwatchStart ? "Start" : "Stop"}</Text>
         </TouchableHighlight>
+
         <TouchableHighlight onPress={this.resetStopwatch}>
           <Text style={styles.button}>Reset</Text>
         </TouchableHighlight>
+        
         <Stopwatch laps msecs start={this.state.stopwatchStart}
           reset={this.state.stopwatchReset}
           options={options}

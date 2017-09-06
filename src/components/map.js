@@ -45,7 +45,7 @@ export class GeoLocationComponent extends Component {
 
   watchID: ?number = null
 
-  componentDidMount() {
+  componentWillMount() {
     navigator.geolocation.getCurrentPosition((position) => {
       var lat = parseFloat(position.coords.latitude)
       var long = parseFloat(position.coords.longitude)

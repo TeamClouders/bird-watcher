@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { AppRegistry } from 'react-native';
-import { HomeComponent, CameraComponent, TimerComponent, GeoLocationComponent, NotesComponent } from './src/components';
+import { SpeciesComponent, CameraComponent, TimerComponent, GeoLocationComponent, NotesComponent } from './src/components';
 // React navigation imports
 import { TabNavigator, DrawerNavigator, StackNavigator } from 'react-navigation';
 
@@ -9,7 +9,7 @@ import { TabNavigator, DrawerNavigator, StackNavigator } from 'react-navigation'
 //   render() {
 //     const { navigate } = this.props.navigation;
 //     return (
-//       <HomeComponent nav={navigate} />
+//       <SpeciesComponent nav={navigate} />
 //     );
 //   }
 // }
@@ -24,7 +24,7 @@ const Screen1Stack = StackNavigator({
         screen: TimerComponent,
       },
       Species: {
-        screen: HomeComponent,
+        screen: SpeciesComponent,
       },
       Camera: {
         screen: CameraComponent,
