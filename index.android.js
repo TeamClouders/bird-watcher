@@ -2,17 +2,36 @@ import React, { Component } from 'react';
 import { AppRegistry } from 'react-native';
 import { SpeciesComponent, CameraComponent, TimerComponent, GeoLocationComponent, NotesComponent } from './src/components';
 // React navigation imports
+import firebase from 'firebase'
 import { TabNavigator, DrawerNavigator, StackNavigator } from 'react-navigation';
 
 // DONT NEED THIS COMPONENT JUST KEEP FOR TESTING
-// class birdWatcher extends Component {
-//   render() {
-//     const { navigate } = this.props.navigation;
-//     return (
-//       <SpeciesComponent nav={navigate} />
-//     );
-//   }
-// }
+class birdWatcher extends Component {
+  componentWillMount() {
+    // adding firebase configuration
+    var config = {
+      // apiKey: "<API_KEY>",
+      // authDomain: "<PROJECT_ID>.firebaseapp.com",
+      // databaseURL: "https://<DATABASE_NAME>.firebaseio.com"
+      apiKey: "AIzaSyCXs2qMUazezjisKUS2ICNAKbasCkJdGDQ",
+      authDomain: "react-sample-17caa.firebaseapp.com",
+      databaseURL: "https://react-sample-17caa.firebaseio.com",
+      projectId: "react-sample-17caa",
+      storageBucket: "react-sample-17caa.appspot.com",
+      messagingSenderId: "411422279834"
+    };
+    if (!firebase.apps.length) {
+      firebase.initializeApp(config);
+    }
+
+  }
+  render() {
+    const { navigate } = this.props.navigation;
+    return (
+      <SpeciesComponent nav={navigate} />
+    );
+  }
+}
 
 const Screen1Stack = StackNavigator({
   Home: {
@@ -24,7 +43,7 @@ const Screen1Stack = StackNavigator({
         screen: TimerComponent,
       },
       Species: {
-        screen: SpeciesComponent,
+        screen: birdWatcher,
       },
       Camera: {
         screen: CameraComponent,
