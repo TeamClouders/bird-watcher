@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { AppRegistry, StyleSheet, Text, View, TouchableHighlight } from 'react-native';
+import { AppRegistry, StyleSheet, Text, View, TouchableHighlight ,AsyncStorage} from 'react-native';
 import { Stopwatch, Timer } from 'react-native-stopwatch-timer';
 import {Button, Icon } from 'native-base';
-
+var a;
 export class TimerComponent extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
@@ -37,7 +37,11 @@ export class TimerComponent extends Component {
   }
 
   toggleStopwatch() {
-    this.setState({ stopwatchStart: !this.state.stopwatchStart, stopwatchReset: false });
+    this.setState({ stopwatchStart: !this.state.stopwatchStart, stopwatchReset: false });   
+    var obj = {
+      timer : a
+    }
+    AsyncStorage.setItem('record', JSON.stringify(obj));
   }
 
   resetStopwatch() {
@@ -46,6 +50,7 @@ export class TimerComponent extends Component {
 
   getFormattedTime(time) {
     this.currentTime = time;
+    a = time
   };
 
   render() {

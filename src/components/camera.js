@@ -17,24 +17,12 @@ export class CameraComponent extends Component {
         this.state = {
             avatarSource: null,
             // videoSource: null,
-            record: ""
         };
-    }
-    componentWillMount() {
-        AsyncStorage.getItem('record', (err, result) => {
-            if (err) {
-                alert("Error", err)
-                return
-            } else {
-                alert(result)
-                this.setState({ record: result })
-                console.log("RESULT STORAGE", result)
-            }
-        })
     }
 
 
     selectPhotoTapped() {
+        var storage;
         const options = {
             quality: 1.0,
             maxWidth: 500,
@@ -64,6 +52,14 @@ export class CameraComponent extends Component {
                 this.setState({
                     avatarSource: source
                 });
+
+                AsyncStorage.getItem("record", (err, res) => {
+                    storage = JSON.parse(res);
+                    storage.camera = response
+                })
+                setTimeout(() => {
+                    AsyncStorage.setItem('record', JSON.stringify(storage));
+                }, 100)
             }
         });
     }
@@ -97,7 +93,6 @@ export class CameraComponent extends Component {
     // }
 
     render() {
-        console.log(this.state.record)
         return (
             <View style={styles.container}>
                 <TouchableOpacity onPress={this.selectPhotoTapped.bind(this)}>
