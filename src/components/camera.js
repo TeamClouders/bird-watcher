@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, PixelRatio, TouchableOpacity, Image, } from 'react-native';
+import { StyleSheet, Text, View, PixelRatio, TouchableOpacity, Image, AsyncStorage } from 'react-native';
 import { Button, Icon } from 'native-base';
 import ImagePicker from 'react-native-image-picker';
 
@@ -12,16 +12,28 @@ export class CameraComponent extends Component {
             headerLeft: <Button transparent onPress={() => navigation.navigate('DrawerOpen')}><Icon name='menu' /></Button>
         }
     }
-
-
-
     constructor() {
         super()
         this.state = {
             avatarSource: null,
-            // videoSource: null
+            // videoSource: null,
+            record: ""
         };
     }
+    componentWillMount() {
+        AsyncStorage.getItem('record', (err, result) => {
+            if (err) {
+                alert("Error", err)
+                return
+            } else {
+                alert(result)
+                this.setState({ record: result })
+                console.log("RESULT STORAGE", result)
+            }
+        })
+    }
+
+
     selectPhotoTapped() {
         const options = {
             quality: 1.0,
@@ -85,6 +97,7 @@ export class CameraComponent extends Component {
     // }
 
     render() {
+        console.log(this.state.record)
         return (
             <View style={styles.container}>
                 <TouchableOpacity onPress={this.selectPhotoTapped.bind(this)}>
@@ -94,7 +107,7 @@ export class CameraComponent extends Component {
                         }
                     </View>
                 </TouchableOpacity>
-{/* 
+                {/* 
                 <TouchableOpacity onPress={this.selectVideoTapped.bind(this)}>
                     <View style={[styles.avatar, styles.avatarContainer]}>
                         <Text>Select a Video</Text>

@@ -4,6 +4,7 @@ import { SpeciesComponent, CameraComponent, TimerComponent, GeoLocationComponent
 // React navigation imports
 import firebase from 'firebase'
 import { TabNavigator, DrawerNavigator, StackNavigator } from 'react-navigation';
+import { Button, Icon } from 'native-base';
 
 // DONT NEED THIS COMPONENT JUST KEEP FOR TESTING
 class birdWatcher extends Component {
@@ -25,6 +26,15 @@ class birdWatcher extends Component {
     }
 
   }
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: 'Species',
+      headerStyle: { backgroundColor: '#1f96f2' },
+      headerTitleStyle: { color: 'white', marginLeft: '40%', marginRight: '40%' },
+      headerLeft: <Button transparent onPress={() => navigation.navigate('DrawerOpen')}><Icon name='menu' /></Button>
+    }
+  }
+
   render() {
     const { navigate } = this.props.navigation;
     return (
