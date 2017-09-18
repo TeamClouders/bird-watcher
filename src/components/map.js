@@ -206,8 +206,7 @@ export class GeoLocationComponent extends Component {
 
     componentWillMount() {
         navigator.geolocation.getCurrentPosition((position) => {
-          var storage = {};
-          
+
             if (position) {
                 alert("location mil rahi hai user say")
                 var lat = position.coords.latitude
@@ -220,11 +219,6 @@ export class GeoLocationComponent extends Component {
                     longitudeDelta: LONGITUDE_DELTA
                 }
 
-                storage.latitude = initialRegion.latitude
-                storage.longitude = initialRegion.longitude
-
-                  AsyncStorage.setItem('record', JSON.stringify(storage));
-                console.log("Storage", storage)
 
                 this.setState({ initialPosition: initialRegion })
                 this.setState({ markerPosition: initialRegion })
@@ -271,7 +265,7 @@ export class GeoLocationComponent extends Component {
                     followsUserLocation
                 >
 
-                    <MapView.Marker draggable
+                    <MapView.Marker
                         coordinate={this.state.markerPosition}>
 
                     </MapView.Marker>

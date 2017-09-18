@@ -1,5 +1,5 @@
-import React, {Component} from 'react'
-import {AsyncStorage} from 'react-native'
+import React, { Component } from 'react'
+import { AsyncStorage } from 'react-native'
 import firebase from 'firebase'
 import {
     Container,
@@ -28,23 +28,18 @@ export class SpeciesComponent extends Component {
         };
     }
     componentWillMount() {
-        let refRoot = firebase
-            .database()
-            .ref('/list')
+        let refRoot = firebase.database().ref('/list')
         refRoot.on("child_added", (snap) => {
             var obj = snap.val();
             obj.key = snap.key;
-            this
-                .state
-                .speciesArray
-                .push(obj)
-            this.setState({speciesArray: this.state.speciesArray})
+            this.state.speciesArray.push(obj)
+            this.setState({ speciesArray: this.state.speciesArray })
         })
     }
 
     onCheckBoxPress(ev) {
         var storage;
-        this.setState({key: ev.key})
+        this.setState({ key: ev.key })
 
         AsyncStorage.getItem("record", (err, res) => {
             storage = JSON.parse(res);
@@ -59,43 +54,24 @@ export class SpeciesComponent extends Component {
     }
 
     render() {
-        // console.log("------AA-----", this.state.value) AsyncStorage.setItem('record',
-        // JSON.stringify(this.state.value));
-
         return (
             <Container>
                 <Content>
                     <List>
-                        {this
-                            .state
-                            .speciesArray
-                            .map((value, index) => {
-                                return (
-                                    <ListItem
-                                        avatar
-                                        style={{
-                                        margin: 5
-                                    }}
-                                        key={index}>
-                                        <Left>
-                                            <Thumbnail
-                                                source={{
-                                                uri: value.icon
-                                            }}/>
-                                        </Left>
-                                        <Body>
-                                            <Text>{value.name}</Text>
-                                        </Body>
-                                        <Radio
-                                            onPress={this
-                                            .onCheckBoxPress
-                                            .bind(this, value)}
-                                            selected={(this.state.key === value.key)
-                                            ? true
-                                            : false}/>
-                                    </ListItem>
-                                )
-                            })}
+                        {this.state.speciesArray.map((value, index) => {
+                            return (
+                                <ListItem avatar style={{ margin: 5 }} key={index}>
+                                    <Left>
+                                        <Thumbnail source={{ uri: value.icon }} />
+                                    </Left>
+                                    <Body>
+                                        <Text>{value.name}</Text>
+                                    </Body>
+                                    <Radio onPress={this.onCheckBoxPress.bind(this, value)}
+                                        selected={(this.state.key === value.key) ? true : false} />
+                                </ListItem>
+                            )
+                        })}
                     </List>
                 </Content>
             </Container>
