@@ -48,7 +48,9 @@ export class SpeciesComponent extends Component {
 
         AsyncStorage.getItem("record", (err, res) => {
             storage = JSON.parse(res);
+            console.log(1, storage)
             storage.speciesKey = ev.key
+            console.log(2, storage)
         })
         setTimeout(() => {
             AsyncStorage.setItem('record', JSON.stringify(storage));

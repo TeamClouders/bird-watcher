@@ -7,8 +7,10 @@ import {
   ScrollView,
   TouchableOpacity,
   AppRegistry,
+  AsyncStorage
 } from 'react-native';
 import {Button, Icon } from 'native-base';
+import firebase from 'firebase'
 
 import Note from './note';
 
@@ -27,6 +29,52 @@ export class NotesComponent extends Component {
   state = {
     noteArray: [{ 'date': 'testdate', 'note': 'testnote' }],
     noteText: '',
+    loading: null,
+    result: false
+  }
+
+  submitData(){
+    var storage;
+
+    AsyncStorage.getItem("record", (err, res) => {
+        storage = JSON.parse(res);
+        storage.notes = this.state.noteArray
+    })
+    // console.log(this.state.noteArray)
+    // console.log('Data', storage)
+   
+    
+
+setTimeout(function() {
+  
+  // const _vm = this
+  // const file = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwiKw9xPE6ZTl490JW-wqvQZD5shpSraY8CLCs5-8VEMK7sO1H' //e.target.files[0];
+  const _vm = this
+  // const file = storage.camera;
+  var blob = new Blob(storage.camera, { type: "image/jpeg" });
+  
+  let extension = storage.camera.fileName.split(".").pop();
+  extension = extension.toLowerCase();
+  console.log("extension" , extension)
+  let fileName;
+  fileName = Date.now() + "." + extension;
+  var storageRef = firebase.storage().ref().child(fileName);
+  storageRef.put(blob,{ contentType : 'image/jpeg'}).then(function (snapshot) {
+    let obj = {
+      url: snapshot.downloadURL,
+      fileName: file.name//.replace('.pdf', ''),
+    }
+    firebase.database().ref().child('/allFiles/').push(obj)
+    _vm.setState({ loading: false, result: true })
+  }).catch(error => alert("Uploading field", error))
+
+
+}, 1000);
+
+
+
+
+
   }
 
   render() {
@@ -37,10 +85,6 @@ export class NotesComponent extends Component {
     return (
       <View style={styles.container}>
 
-        <View style={styles.header}>
-          <Text style={styles.headerText}> Notes </Text>
-        </View>
-
         <ScrollView style={styles.scrollContainer}>
           {notes}
         </ScrollView>
@@ -49,6 +93,10 @@ export class NotesComponent extends Component {
 
           <TouchableOpacity onPress={this.addNote.bind(this)} style={styles.addButton}>
             <Text style={styles.addButtonText}>+</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={this.submitData.bind(this)} style={styles.submitButton}>
+            <Text style={styles.addButtonText}>submit</Text>
           </TouchableOpacity>
 
           <TextInput style={styles.textInput}
@@ -131,6 +179,15 @@ const styles = StyleSheet.create({
     borderTopWidth: 2,
     borderTopColor: '#ededed',
   },
-
+  submitButton: {
+    alignSelf: 'flex-end',  
+    padding: 5,
+    borderRadius: 5,
+    backgroundColor: '#E91E63',
+    borderColor: '#ccc',
+    marginBottom: -45,
+    zIndex: 10,
+    
+  },
 })
 

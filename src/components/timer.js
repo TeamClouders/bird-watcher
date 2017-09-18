@@ -37,11 +37,16 @@ export class TimerComponent extends Component {
   }
 
   toggleStopwatch() {
+    var storage;
     this.setState({ stopwatchStart: !this.state.stopwatchStart, stopwatchReset: false });   
-    var obj = {
-      timer : a
-    }
-    AsyncStorage.setItem('record', JSON.stringify(obj));
+
+    AsyncStorage.getItem("record", (err, res) => {
+        storage = JSON.parse(res);
+        storage.timer = a
+    })
+    setTimeout(() => {
+        AsyncStorage.setItem('record', JSON.stringify(storage));
+    }, 100)
   }
 
   resetStopwatch() {
