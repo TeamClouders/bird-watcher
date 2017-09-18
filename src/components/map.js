@@ -56,7 +56,6 @@ export class GeoLocationComponent extends Component {
         latitudeDelta: LATTITUDE_DELTA,
         longitudeDelta: LONGITUDE_DELTA
       }
-
       this.setState({ initialPosition: initialRegion })
       this.setState({ markerPosition: initialRegion })
     }, (error) => alert(JSON.stringify(error)),
@@ -83,7 +82,8 @@ export class GeoLocationComponent extends Component {
   }
 
   render() {
-    console.log(this.state)
+    console.log("markerPosition", this.state.markerPosition)
+    console.log("initialPosition", this.state.initialPosition)
     return (
       <View style={styles.container}>
         <MapView
