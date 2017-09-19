@@ -5,7 +5,7 @@ import { SpeciesComponent, CameraComponent, TimerComponent, GeoLocationComponent
 import firebase from 'firebase'
 import { TabNavigator, DrawerNavigator, StackNavigator } from 'react-navigation';
 import { Button, Icon } from 'native-base';
-
+import apisauce from 'apisauce';
 // DONT NEED THIS COMPONENT JUST KEEP FOR TESTING
 class birdWatcher extends Component {
   componentWillMount() {
@@ -14,12 +14,25 @@ class birdWatcher extends Component {
       // apiKey: "<API_KEY>",
       // authDomain: "<PROJECT_ID>.firebaseapp.com",
       // databaseURL: "https://<DATABASE_NAME>.firebaseio.com"
-      apiKey: "AIzaSyCXs2qMUazezjisKUS2ICNAKbasCkJdGDQ",
-      authDomain: "react-sample-17caa.firebaseapp.com",
-      databaseURL: "https://react-sample-17caa.firebaseio.com",
-      projectId: "react-sample-17caa",
-      storageBucket: "react-sample-17caa.appspot.com",
-      messagingSenderId: "411422279834"
+
+      //================Started ================//
+      // apiKey: "AIzaSyCXs2qMUazezjisKUS2ICNAKbasCkJdGDQ",
+      // authDomain: "react-sample-17caa.firebaseapp.com",
+      // databaseURL: "https://react-sample-17caa.firebaseio.com",
+      // projectId: "react-sample-17caa",
+      // storageBucket: "react-sample-17caa.appspot.com",
+      // messagingSenderId: "411422279834"
+
+      //================== Ended ====================//
+
+      apiKey: "AIzaSyAb8laE-9v8uE57eNMfAxGFG0bnizkNiDo",
+      authDomain: "bidwatch-ea87f.firebaseapp.com",
+      databaseURL: "https://bidwatch-ea87f.firebaseio.com",
+      projectId: "bidwatch-ea87f",
+      storageBucket: "bidwatch-ea87f.appspot.com",
+      messagingSenderId: "314204013283"
+
+
     };
     if (!firebase.apps.length) {
       firebase.initializeApp(config);

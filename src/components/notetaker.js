@@ -10,9 +10,19 @@ import {
   AsyncStorage
 } from 'react-native';
 import {Button, Icon } from 'native-base';
-import firebase from 'firebase'
+import firebase from 'firebase';
+import RNFetchBlob from 'react-native-fetch-blob';
+
 
 import Note from './note';
+
+
+// Prepare Blob support
+const Blob = RNFetchBlob.polyfill.Blob
+const fs = RNFetchBlob.fs
+window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest
+window.Blob = Blob
+
 
 export class NotesComponent extends Component {
 
@@ -38,10 +48,11 @@ export class NotesComponent extends Component {
 
     AsyncStorage.getItem("record", (err, res) => {
         storage = JSON.parse(res);
-        storage.notes = this.state.noteArray
-    })
+        // storage.notes = this.state.noteArray
+        // console.log('Data', storage)
+      })
     // console.log(this.state.noteArray)
-    // console.log('Data', storage)
+  
    
     
 
@@ -51,23 +62,52 @@ setTimeout(function() {
   // const file = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwiKw9xPE6ZTl490JW-wqvQZD5shpSraY8CLCs5-8VEMK7sO1H' //e.target.files[0];
   const _vm = this
   // const file = storage.camera;
-  var blob = new Blob(storage.camera, { type: "image/jpeg" });
-  
-  let extension = storage.camera.fileName.split(".").pop();
-  extension = extension.toLowerCase();
-  console.log("extension" , extension)
-  let fileName;
-  fileName = Date.now() + "." + extension;
-  var storageRef = firebase.storage().ref().child(fileName);
-  storageRef.put(blob,{ contentType : 'image/jpeg'}).then(function (snapshot) {
-    let obj = {
-      url: snapshot.downloadURL,
-      fileName: file.name//.replace('.pdf', ''),
-    }
-    firebase.database().ref().child('/allFiles/').push(obj)
-    _vm.setState({ loading: false, result: true })
-  }).catch(error => alert("Uploading field", error))
+  // alert('camera array'+JSON.stringify(storage.camera.path));
+  // var blob = new Blob([storage.camera], { type: "image/jpeg" });
+  let rnfbURI = RNFetchBlob.wrap(storage.camera.path);
+    Blob.build(rnfbURI,{type:"image/jpeg"}).then(blob=>{
+    // console.log('blob',blob);
+    // alert(JSON.stringify(blob));
+    let extension = storage.camera.fileName.split(".").pop();
+    extension = extension.toLowerCase();
+    // console.log("extension" , extension)
+    let fileName;
+    fileName = Date.now() + "." + extension;
+    var storageRef = firebase.storage().ref().child(fileName);
+    // console.log('fileName',fileName);
+    storageRef.put(blob,{ contentType : 'image/jpeg'}).then(function (snapshot) {
+      let obj = {
+        url: snapshot.downloadURL,
+        fileName: file.name//.replace('.pdf', ''),
+      }
+      firebase.database().ref().child('/allFiles/').push(obj)
+        alert('Uploading url'+ obj.url);
+       _vm.setState({ loading: false, result: true })
 
+    },e=>{
+      alert('Error occured..');
+    })//.catch(error => alert("Uploading failed"+ JSON.stringify(error)))
+  })
+
+
+
+
+
+  // let extension = storage.camera.fileName.split(".").pop();
+  // extension = extension.toLowerCase();
+  // console.log("extension" , extension)
+  // let fileName;
+  // fileName = Date.now() + "." + extension;
+  // var storageRef = firebase.storage().ref().child(fileName);
+  // // console.log('fileName',fileName);
+  // storageRef.put(blob,{ contentType : 'image/jpeg'}).then(function (snapshot) {
+  //   let obj = {
+  //     url: snapshot.downloadURL,
+  //     fileName: file.name//.replace('.pdf', ''),
+  //   }
+  //   firebase.database().ref().child('/allFiles/').push(obj)
+  //   _vm.setState({ loading: false, result: true })
+  // }).catch(error => alert("Uploading field", error))
 
 }, 1000);
 
