@@ -22,7 +22,7 @@ export class CameraComponent extends Component {
 
 
     selectPhotoTapped() {
-        var storage = {};
+
         const options = {
             quality: 1.0,
             maxWidth: 500,
@@ -52,16 +52,16 @@ export class CameraComponent extends Component {
                 this.setState({
                     avatarSource: source
                 });
-
-                // AsyncStorage.getItem("record", (err, res) => {
-                //     storage = JSON.parse(res);
-                //     storage.camera = response
-                // })
-                setTimeout(() => {
-                    console.log('storage',storage);
+                var storage;
+                
+                AsyncStorage.getItem("record", (err, res) => {
+                    storage = JSON.parse(res);
                     storage.camera = response;
                     AsyncStorage.setItem('record', JSON.stringify(storage));
-                }, 100)
+                })
+                // setTimeout(() => {
+                //     console.log('storage',storage);
+                // }, 3000)
             }
         });
     }

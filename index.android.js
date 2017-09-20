@@ -16,21 +16,21 @@ class birdWatcher extends Component {
       // databaseURL: "https://<DATABASE_NAME>.firebaseio.com"
 
       //================Started ================//
-      // apiKey: "AIzaSyCXs2qMUazezjisKUS2ICNAKbasCkJdGDQ",
-      // authDomain: "react-sample-17caa.firebaseapp.com",
-      // databaseURL: "https://react-sample-17caa.firebaseio.com",
-      // projectId: "react-sample-17caa",
-      // storageBucket: "react-sample-17caa.appspot.com",
-      // messagingSenderId: "411422279834"
+      apiKey: "AIzaSyCXs2qMUazezjisKUS2ICNAKbasCkJdGDQ",
+      authDomain: "react-sample-17caa.firebaseapp.com",
+      databaseURL: "https://react-sample-17caa.firebaseio.com",
+      projectId: "react-sample-17caa",
+      storageBucket: "react-sample-17caa.appspot.com",
+      messagingSenderId: "411422279834"
 
       //================== Ended ====================//
 
-      apiKey: "AIzaSyAb8laE-9v8uE57eNMfAxGFG0bnizkNiDo",
-      authDomain: "bidwatch-ea87f.firebaseapp.com",
-      databaseURL: "https://bidwatch-ea87f.firebaseio.com",
-      projectId: "bidwatch-ea87f",
-      storageBucket: "bidwatch-ea87f.appspot.com",
-      messagingSenderId: "314204013283"
+      // apiKey: "AIzaSyAb8laE-9v8uE57eNMfAxGFG0bnizkNiDo",
+      // authDomain: "bidwatch-ea87f.firebaseapp.com",
+      // databaseURL: "https://bidwatch-ea87f.firebaseio.com",
+      // projectId: "bidwatch-ea87f",
+      // storageBucket: "bidwatch-ea87f.appspot.com",
+      // messagingSenderId: "314204013283"
 
 
     };

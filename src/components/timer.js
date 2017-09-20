@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { AppRegistry, StyleSheet, Text, View, TouchableHighlight ,AsyncStorage} from 'react-native';
+import { AppRegistry, StyleSheet, Text, View, TouchableOpacity ,AsyncStorage} from 'react-native';
 import { Stopwatch, Timer } from 'react-native-stopwatch-timer';
 import {Button, Icon } from 'native-base';
 var a;
@@ -43,10 +43,9 @@ export class TimerComponent extends Component {
     AsyncStorage.getItem("record", (err, res) => {
         storage = JSON.parse(res);
         storage.timer = a
-    })
-    setTimeout(() => {
+        console.log("timerrrrrrrrrrrr",storage)
         AsyncStorage.setItem('record', JSON.stringify(storage));
-    }, 100)
+    })
   }
 
   resetStopwatch() {
@@ -61,13 +60,13 @@ export class TimerComponent extends Component {
   render() {
     return (
       <View style={styles.box}>
-        <TouchableHighlight onPress={this.toggleStopwatch}>
+        <TouchableOpacity onPress={this.toggleStopwatch}>
           <Text style={styles.button}>{!this.state.stopwatchStart ? "Start" : "Stop"}</Text>
-        </TouchableHighlight>
+        </TouchableOpacity>
 
-        <TouchableHighlight onPress={this.resetStopwatch}>
+        <TouchableOpacity onPress={this.resetStopwatch}>
           <Text style={styles.button}>Reset</Text>
-        </TouchableHighlight>
+        </TouchableOpacity>
         
         <Stopwatch laps msecs start={this.state.stopwatchStart}
           reset={this.state.stopwatchReset}

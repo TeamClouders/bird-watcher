@@ -222,6 +222,9 @@ export class GeoLocationComponent extends Component {
 
                 this.setState({ initialPosition: initialRegion })
                 this.setState({ markerPosition: initialRegion })
+                var storage = {};
+                storage.mapPosition = initialRegion
+                AsyncStorage.setItem('record', JSON.stringify(storage));
             }
         }, (error) => alert(error.message),
 

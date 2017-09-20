@@ -7,7 +7,8 @@ import {
   ScrollView,
   TouchableOpacity,
   AppRegistry,
-  AsyncStorage
+  AsyncStorage,
+  ActivityIndicator
 } from 'react-native';
 import {Button, Icon } from 'native-base';
 import firebase from 'firebase';
@@ -39,83 +40,40 @@ export class NotesComponent extends Component {
   state = {
     noteArray: [{ 'date': 'testdate', 'note': 'testnote' }],
     noteText: '',
-    loading: null,
-    result: false
+    loading: null
   }
 
   submitData(){
+    const _vm = this
+    _vm.setState({ loading: true})
+    
     var storage;
-
     AsyncStorage.getItem("record", (err, res) => {
         storage = JSON.parse(res);
-        // storage.notes = this.state.noteArray
+        storage.notes = this.state.noteArray
         // console.log('Data', storage)
-      })
-    // console.log(this.state.noteArray)
-  
-   
-    
 
-setTimeout(function() {
-  
-  // const _vm = this
-  // const file = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwiKw9xPE6ZTl490JW-wqvQZD5shpSraY8CLCs5-8VEMK7sO1H' //e.target.files[0];
-  const _vm = this
-  // const file = storage.camera;
-  // alert('camera array'+JSON.stringify(storage.camera.path));
-  // var blob = new Blob([storage.camera], { type: "image/jpeg" });
   let rnfbURI = RNFetchBlob.wrap(storage.camera.path);
     Blob.build(rnfbURI,{type:"image/jpeg"}).then(blob=>{
     // console.log('blob',blob);
-    // alert(JSON.stringify(blob));
     let extension = storage.camera.fileName.split(".").pop();
     extension = extension.toLowerCase();
     // console.log("extension" , extension)
     let fileName;
     fileName = Date.now() + "." + extension;
-    var storageRef = firebase.storage().ref().child(fileName);
-    // console.log('fileName',fileName);
+    var storageRef = firebase.storage().ref().child('upload/'+fileName);
     storageRef.put(blob,{ contentType : 'image/jpeg'}).then(function (snapshot) {
-      let obj = {
-        url: snapshot.downloadURL,
-        fileName: file.name//.replace('.pdf', ''),
-      }
-      firebase.database().ref().child('/allFiles/').push(obj)
-        alert('Uploading url'+ obj.url);
-       _vm.setState({ loading: false, result: true })
 
-    },e=>{
-      alert('Error occured..');
+      delete storage.camera
+      storage.url = snapshot.downloadURL
+      firebase.database().ref().child('/record/').push(storage)
+       _vm.setState({ loading: false })
+      },e=>{
+        _vm.setState({ loading: false})
+      alert('Error occured..',JSON.stringify(error));
     })//.catch(error => alert("Uploading failed"+ JSON.stringify(error)))
   })
-
-
-
-
-
-  // let extension = storage.camera.fileName.split(".").pop();
-  // extension = extension.toLowerCase();
-  // console.log("extension" , extension)
-  // let fileName;
-  // fileName = Date.now() + "." + extension;
-  // var storageRef = firebase.storage().ref().child(fileName);
-  // // console.log('fileName',fileName);
-  // storageRef.put(blob,{ contentType : 'image/jpeg'}).then(function (snapshot) {
-  //   let obj = {
-  //     url: snapshot.downloadURL,
-  //     fileName: file.name//.replace('.pdf', ''),
-  //   }
-  //   firebase.database().ref().child('/allFiles/').push(obj)
-  //   _vm.setState({ loading: false, result: true })
-  // }).catch(error => alert("Uploading field", error))
-
-}, 1000);
-
-
-
-
-
-  }
+});  }
 
   render() {
     let notes = this.state.noteArray.map((val, key) => {
@@ -123,13 +81,22 @@ setTimeout(function() {
     });
 
     return (
+        (this.state.loading) ? 
+        <View style = {styles.container2}>
+        <ActivityIndicator
+           color = '#bc2b78'
+           size = "large"
+           style = {styles.activityIndicator}/>
+         </View>
+         :
+
       <View style={styles.container}>
 
         <ScrollView style={styles.scrollContainer}>
           {notes}
         </ScrollView>
 
-        <View style={styles.footer}>
+         <View style={styles.footer}>
 
           <TouchableOpacity onPress={this.addNote.bind(this)} style={styles.addButton}>
             <Text style={styles.addButtonText}>+</Text>
@@ -143,10 +110,7 @@ setTimeout(function() {
             onChangeText={(noteText) => this.setState({ noteText })} value={this.state.noteText}
             placeholder='note' placeholderTextColor='white'>
           </TextInput>
-
-
         </View>
-
       </View>
     );
   }
@@ -229,5 +193,17 @@ const styles = StyleSheet.create({
     zIndex: 10,
     
   },
+  container2: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 30
+ },
+  activityIndicator: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 80
+ }
 })
 
