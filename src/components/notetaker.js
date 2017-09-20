@@ -11,7 +11,9 @@ import {
   ActivityIndicator
 } from 'react-native';
 import {Button, Icon } from 'native-base';
-import firebase from 'firebase';
+// import firebase from 'firebase';
+import * as FirebaseClient from './firebase'
+
 import RNFetchBlob from 'react-native-fetch-blob';
 
 
@@ -61,12 +63,12 @@ export class NotesComponent extends Component {
     // console.log("extension" , extension)
     let fileName;
     fileName = Date.now() + "." + extension;
-    var storageRef = firebase.storage().ref().child('upload/'+fileName);
+    var storageRef = FirebaseClient.storage.ref().child('upload/'+fileName);
     storageRef.put(blob,{ contentType : 'image/jpeg'}).then(function (snapshot) {
 
       delete storage.camera
       storage.url = snapshot.downloadURL
-      firebase.database().ref().child('/record/').push(storage)
+      FirebaseClient.database.ref().child('/record/').push(storage)
        _vm.setState({ loading: false })
       },e=>{
         _vm.setState({ loading: false})

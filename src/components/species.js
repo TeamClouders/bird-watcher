@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { AsyncStorage } from 'react-native'
-import firebase from 'firebase'
+// import firebase from 'firebase'
+import * as FirebaseClient from './firebase'
+
 import {
     Container,
     Header,
@@ -28,10 +30,11 @@ export class SpeciesComponent extends Component {
         };
     }
     componentWillMount() {
-        let refRoot = firebase.database().ref('/list')
+        let refRoot = FirebaseClient.database.ref('/list')
         refRoot.on("child_added", (snap) => {
             var obj = snap.val();
             obj.key = snap.key;
+            console.log("SPECISssssssssssssss",obj)
             this.state.speciesArray.push(obj)
             this.setState({ speciesArray: this.state.speciesArray })
         })
@@ -43,13 +46,9 @@ export class SpeciesComponent extends Component {
 
         AsyncStorage.getItem("record", (err, res) => {
             storage = JSON.parse(res);
-            console.log(1, storage)
             storage.speciesKey = ev.key
-            console.log(2, storage)
-        })
-        setTimeout(() => {
             AsyncStorage.setItem('record', JSON.stringify(storage));
-        }, 100)
+        })
 
     }
 

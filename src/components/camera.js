@@ -59,9 +59,6 @@ export class CameraComponent extends Component {
                     storage.camera = response;
                     AsyncStorage.setItem('record', JSON.stringify(storage));
                 })
-                // setTimeout(() => {
-                //     console.log('storage',storage);
-                // }, 3000)
             }
         });
     }

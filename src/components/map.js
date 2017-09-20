@@ -79,7 +79,7 @@
 //         latitudeDelta: LATTITUDE_DELTA,
 //       }
 //       console.log(22222222222222222222)
-      
+
 //       this.setState({ initialPosition: lastRegion })
 //       this.setState({ markerPosition: lastRegion })
 //     })
@@ -176,7 +176,7 @@ const LATTITUDE_DELTA = 0.0922
 const LONGITUDE_DELTA = LATTITUDE_DELTA * ASPECT_RATION
 
 export class GeoLocationComponent extends Component {
-  
+
     static navigationOptions = ({ navigation }) => {
         return {
             title: 'Map',
@@ -208,7 +208,8 @@ export class GeoLocationComponent extends Component {
         navigator.geolocation.getCurrentPosition((position) => {
 
             if (position) {
-                alert("location mil rahi hai user say")
+                console.log("POSITION", position)
+                // alert("location mil rahi hai user say")
                 var lat = position.coords.latitude
                 var long = position.coords.longitude
 
