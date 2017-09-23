@@ -22,9 +22,7 @@ export class RenderRecordsComponent extends Component {
     constructor() {
         super()
         this.state = {
-            recordsArray: [],
-            // key: "",
-            // sotrage
+            recordsArray: []
         };
     }
     componentWillMount() {
@@ -39,18 +37,19 @@ export class RenderRecordsComponent extends Component {
     }
 
     render() {
+        console.log('this',this.state.recordsArray)
         return (
             <Container>
                 <Content>
-                    <List>
-                        {/* {this.state.recordsArray.map((value, index) => { */}
-                        {/* return ( */}
+                        {this.state.recordsArray.map((value, index) => {
+                        return (
+                    <List key={index}>
                         <ListItem avatar style={{ margin: 5 }}>
                             <Left>
-                                <Thumbnail source={{ uri: 'https://media.licdn.com/media/AAEAAQAAAAAAAANbAAAAJDE5NjBkNDk1LTY3ZGQtNDA0NS04YTJiLTdkNmU3NjZiNjI3Mg.png' }} />
+                                <Thumbnail source={{ uri: value.speciesIcon }} />
                             </Left>
                             <Body>
-                                <Text>user name</Text>
+                                <Text>{value.speciesName}</Text>
                             </Body>
                             {/* <Radio onPress={this.onCheckBoxPress.bind(this, value)}
                                         selected={(this.state.key === value.key) ? true : false} /> */}
@@ -59,18 +58,17 @@ export class RenderRecordsComponent extends Component {
                         <ListItem avatar style={{ margin: 5 }}>
                             <Left>
                                 <Text>
-
                                     Timer
                             </Text>
                             </Left>
                             <Body>
-                                <Text>user name</Text>
+                                <Text>{value.timer}</Text>
                             </Body>
                         </ListItem>
 
                         <ListItem avatar style={{ margin: 5 }}>
                             <Left>
-                                <Thumbnail source={{ uri: 'https://media.licdn.com/media/AAEAAQAAAAAAAANbAAAAJDE5NjBkNDk1LTY3ZGQtNDA0NS04YTJiLTdkNmU3NjZiNjI3Mg.png' }} />
+                                <Thumbnail source={{ uri: value.url }} />
                             </Left>
                             <Body>
                                 <Text>capture image</Text>
@@ -82,16 +80,16 @@ export class RenderRecordsComponent extends Component {
                                 <Text>
                                     Notes
                                 </Text>
-                                {/* <Thumbnail source={{ uri: 'https://media.licdn.com/media/AAEAAQAAAAAAAANbAAAAJDE5NjBkNDk1LTY3ZGQtNDA0NS04YTJiLTdkNmU3NjZiNjI3Mg.png' }} /> */}
+
                             </Left>
                             <Body>
-                                <Text>DETAILS</Text>
-                                <Text>DETAILS</Text>
+                                <Text>{value.notes[0].note}</Text>
+                                <Text>{value.notes[0].date}</Text>
                             </Body>
                         </ListItem>
-                        {/* )
-                        })} */}
                     </List>
+                        )
+                        })}
                 </Content>
             </Container>
         )
